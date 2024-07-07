@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:weather_app/Resultbar.dart';
 import 'package:weather_app/addition_info.dart';
 
@@ -29,9 +30,10 @@ class WeatherScrean extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -95,8 +97,10 @@ class WeatherScrean extends StatelessWidget {
               'Additional Information',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            AdditionInfo(),
-            
+            SizedBox(height: 20),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [AdditionInfo(), AdditionInfo(), AdditionInfo()],
+            )
           ],
         ),
       ),
