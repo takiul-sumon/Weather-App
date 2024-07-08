@@ -1,12 +1,39 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
 import 'package:weather_app/Resultbar.dart';
 import 'package:weather_app/addition_info.dart';
+import 'package:http/http.dart' as http;
+import './secret.dart';
 
-class WeatherScrean extends StatelessWidget {
-  const WeatherScrean({super.key});
+class WeatherScrean extends StatefulWidget {
+  WeatherScrean({super.key});
+
+  @override
+  State<WeatherScrean> createState() => _WeatherScreanState();
+}
+
+class _WeatherScreanState extends State<WeatherScrean> {
+  @override
+  void initState() {
+    super.initState();
+    currentWeather();
+  }
+
+  Future currentWeather() async {
+    try {
+      String cityName = 'London';
+      final res = await http.get(
+        Uri.parse(
+            'http://api.openweathermap.org/data/2.5/forecast?q=$cityName&APPID=$openweatherapikey'),
+      );
+     final data = jsonDecode(res.body);
+    } catch (e) {
+      throw e.toString();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,15 +118,22 @@ class WeatherScrean extends StatelessWidget {
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Row(children: [
-                resultBar(ic: Icons.water_drop,temperature: 320,time: '03:00'),
-              resultBar(ic: Icons.water_drop,temperature: 320,time: '03:00'),
-              resultBar(ic: Icons.water_drop,temperature: 320,time: '03:00'),
-              resultBar(ic: Icons.water_drop,temperature: 320,time: '03:00'),
-              resultBar(ic: Icons.water_drop,temperature: 320,time: '03:00'),
-              ],),
-            )
-            ,const SizedBox(
+              child: Row(
+                children: [
+                  resultBar(
+                      ic: Icons.water_drop, temperature: 320, time: '03:00'),
+                  resultBar(
+                      ic: Icons.water_drop, temperature: 320, time: '03:00'),
+                  resultBar(
+                      ic: Icons.water_drop, temperature: 320, time: '03:00'),
+                  resultBar(
+                      ic: Icons.water_drop, temperature: 320, time: '03:00'),
+                  resultBar(
+                      ic: Icons.water_drop, temperature: 320, time: '03:00'),
+                ],
+              ),
+            ),
+            const SizedBox(
               height: 20,
             ),
             const Text(
@@ -107,20 +141,22 @@ class WeatherScrean extends StatelessWidget {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-           const Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-               children: [
+              children: [
                 AdditionInfo(
                   icon: Icons.water_drop,
                   temp: 30,
                   label: 'Humidity',
                 ),
                 AdditionInfo(
-                  icon: Icons.wind_power_sharp,
-                temp:50,label: 'Wind Speed'),
+                    icon: Icons.wind_power_sharp,
+                    temp: 50,
+                    label: 'Wind Speed'),
                 AdditionInfo(
                   icon: Icons.poll_rounded,
-                  temp: 60,label: 'Pressure',
+                  temp: 60,
+                  label: 'Pressure',
                 )
               ],
             )
