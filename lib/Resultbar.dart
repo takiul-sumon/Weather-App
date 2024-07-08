@@ -16,28 +16,26 @@ class resultBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      
       child: SizedBox(
         height: 120,
         child: SizedBox(
           width: 100,
           child: Card(
             elevation: 15,
-            shape: RoundedRectangleBorder(
+            shape:const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   '${time}',
-                  style: TextStyle(
+                  style:const TextStyle(
                       fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 8),
+               const SizedBox(height: 8),
               Icon(ic),
-                SizedBox(height: 8),
-                Text('${temperature}')
+               const SizedBox(height: 8),
+                 Text('${temperature}')
               ],
             ),
           ),

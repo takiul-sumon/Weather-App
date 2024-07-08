@@ -89,8 +89,17 @@ class WeatherScrean extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            resultBar(ic: Icons.water_drop,temperature: 320,time: '03:00'),
-            const SizedBox(
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(children: [
+                resultBar(ic: Icons.water_drop,temperature: 320,time: '03:00'),
+              resultBar(ic: Icons.water_drop,temperature: 320,time: '03:00'),
+              resultBar(ic: Icons.water_drop,temperature: 320,time: '03:00'),
+              resultBar(ic: Icons.water_drop,temperature: 320,time: '03:00'),
+              resultBar(ic: Icons.water_drop,temperature: 320,time: '03:00'),
+              ],),
+            )
+            ,const SizedBox(
               height: 20,
             ),
             const Text(
