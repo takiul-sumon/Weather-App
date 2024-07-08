@@ -5,7 +5,8 @@ class AdditionInfo extends StatelessWidget {
   // const AdditionInfo({super.key});
   final IconData? icon;
   final String? label;
-  AdditionInfo({super.key, @required this.icon, @required this.label});
+  final double? temp;
+  const AdditionInfo({super.key, @required this.icon, @required this.label,@required this.temp});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class AdditionInfo extends StatelessWidget {
             height: 5,
           ),
           Text(
-            '92',
+            '${temp}',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           )
         ],

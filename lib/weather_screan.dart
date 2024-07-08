@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:weather_app/Resultbar.dart';
 import 'package:weather_app/addition_info.dart';
 
@@ -57,7 +57,7 @@ class WeatherScrean extends StatelessWidget {
                             sigmaY: 10,
                           ),
                           //  blendMode: BlendMode.color,
-                          child: Column(
+                          child: const Column(
                             children: [
                               Text(
                                 '300.006F',
@@ -79,27 +79,41 @@ class WeatherScrean extends StatelessWidget {
                 ),
               ),
             ),
-            Align(
+            const Align(
               alignment: Alignment.bottomLeft,
               child: Text(
                 'Weather Forcast',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            resultBar(),
-            SizedBox(
+            resultBar(ic: Icons.water_drop,temperature: 320,time: '03:00'),
+            const SizedBox(
               height: 20,
             ),
-            Text(
+            const Text(
               'Additional Information',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [AdditionInfo(), AdditionInfo(), AdditionInfo()],
+            const SizedBox(height: 20),
+           const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+               children: [
+                AdditionInfo(
+                  icon: Icons.water_drop,
+                  temp: 30,
+                  label: 'Humidity',
+                ),
+                AdditionInfo(
+                  icon: Icons.wind_power_sharp,
+                temp:50,label: 'Wind Speed'),
+                AdditionInfo(
+                  icon: Icons.poll_rounded,
+                  temp: 60,label: 'Pressure',
+                )
+              ],
             )
           ],
         ),
