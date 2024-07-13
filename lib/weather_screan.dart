@@ -7,26 +7,15 @@ import 'package:http/http.dart' as http;
 import './secret.dart';
 
 class WeatherScrean extends StatefulWidget {
-  WeatherScrean({super.key});
+  const WeatherScrean({super.key});
 
   @override
   State<WeatherScrean> createState() => _WeatherScreanState();
 }
 
 class _WeatherScreanState extends State<WeatherScrean> {
-  double temp = 0;
-  bool isLoading = true;
-  @override
-  void initState() {
-    super.initState();
-    currentWeather();
-  }
-
-  Future currentWeather() async {
+  Future<Map<String, dynamic>> currentWeather() async {
     try {
-      setState(() {
-        isLoading = true;
-      });
       String cityName = 'London';
       final res = await http.get(
         Uri.parse(
@@ -35,11 +24,8 @@ class _WeatherScreanState extends State<WeatherScrean> {
       final data = jsonDecode(res.body);
       if (int.parse(data['cod']) != 200) {
         throw 'Unexpected error accured';
-      } else
-        setState(() {
-          temp = data['list'][0]['main']['temp'];
-          isLoading = false;
-        });
+      }
+      return data;
     } catch (e) {
       throw e.toString();
     }
@@ -66,9 +52,20 @@ class _WeatherScreanState extends State<WeatherScrean> {
             )
           ],
         ),
-        body: isLoading
-            ? CircularProgressIndicator()
-            : Padding(
+        body: FutureBuilder(
+            future: currentWeather(),
+            builder: (context, snapshot) {
+              print(snapshot);
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                    child: CircularProgressIndicator.adaptive());
+              }
+              if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              }
+              final data = snapshot.data!;
+              final currentTemp = data['list'][0]['main']['temp'];
+              return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,10 +94,10 @@ class _WeatherScreanState extends State<WeatherScrean> {
                                     sigmaY: 10,
                                   ),
                                   //  blendMode: BlendMode.color,
-                                  child: Column(
+                                  child:  Column(
                                     children: [
                                       Text(
-                                        '$temp K',
+                                        '$currentTemp K',
                                         style: TextStyle(fontSize: 32),
                                       ),
                                       SizedBox(height: 30),
@@ -185,6 +182,7 @@ class _WeatherScreanState extends State<WeatherScrean> {
                     )
                   ],
                 ),
-              ));
+              );
+            }));
   }
 }
