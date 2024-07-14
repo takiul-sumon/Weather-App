@@ -139,18 +139,24 @@ class _WeatherScreanState extends State<WeatherScrean> {
                     const SizedBox(
                       height: 20,
                     ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          for (int i = 0; i < 7; i++)
-                                resultBar(
-                                ic: Icons.water_drop,
-                                temperature: data['list'][i+1]['main']['temp'],
-                                time: data['list'][i+1]['dt'].toString())
-                          
-                           
-                        ],
+                    SizedBox(
+                      height: 125,
+                      
+                      
+                      child: ListView.builder(
+                        itemCount: 25,scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          final currentWeather = data['list'][index + 1];
+                          final icon = currentWeather['weather'][0]['main'];
+                          final temp = currentWeather['main']['temp'];
+                          final time = currentWeather['dt'];
+                        return  resultBar(
+                              ic: icon == 'Rain'
+                                  ? Icons.water_drop
+                                  : Icons.wb_sunny_outlined,
+                              temperature: temp,
+                              time: time.toString());
+                        },
                       ),
                     ),
                     const SizedBox(

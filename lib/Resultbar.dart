@@ -21,7 +21,9 @@ class resultBar extends StatelessWidget {
         child: SizedBox(
           width: 100,
           child: Card(
+            
             elevation: 15,
+            
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             child: Column(
@@ -30,14 +32,15 @@ class resultBar extends StatelessWidget {
                 Text(
                   '${time}',
                   style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
-                ),
+                      fontSize: 15, fontWeight: FontWeight.bold),
+                maxLines: 1,overflow:TextOverflow.visible,),
                 const SizedBox(height: 8),
                 Icon(ic),
                 const SizedBox(height: 8),
                 Text('${temperature}')
               ],
             ),
+            
           ),
         ),
       ),
