@@ -64,7 +64,13 @@ class _WeatherScreanState extends State<WeatherScrean> {
                 return Text(snapshot.error.toString());
               }
               final data = snapshot.data!;
-              final currentTemp = data['list'][0]['main']['temp'];
+              final currentWeather = data['list'][0];
+              final currentTemp = currentWeather['main']['temp'];
+              final currentSky = currentWeather['weather'][0]['main'];
+              final humidity = currentWeather['main']['humidity'];
+              final pressure = currentWeather['main']['pressure'];
+              final windSpeed = data['list'][0]['wind']['speed'];
+
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -94,18 +100,24 @@ class _WeatherScreanState extends State<WeatherScrean> {
                                     sigmaY: 10,
                                   ),
                                   //  blendMode: BlendMode.color,
-                                  child:  Column(
+                                  child: Column(
                                     children: [
                                       Text(
                                         '$currentTemp K',
                                         style: TextStyle(fontSize: 32),
                                       ),
                                       SizedBox(height: 30),
-                                      Icon(Icons.cloud, size: 40),
+                                      Icon(
+                                          currentSky == 'Rain'
+                                              ? Icons.water_drop_outlined
+                                              : Icons.wb_sunny_outlined,
+                                          size: 40),
                                       SizedBox(height: 30),
                                       Text(
-                                        'Rain',
-                                        style: TextStyle(fontSize: 24),
+                                        '$currentSky',
+                                        style: const TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold),
                                       )
                                     ],
                                   ),
@@ -131,24 +143,13 @@ class _WeatherScreanState extends State<WeatherScrean> {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          resultBar(
-                              ic: Icons.water_drop,
-                              temperature: 320,
-                              time: '03:00'),
-                          resultBar(
-                              ic: Icons.storm_rounded,
-                              temperature: 300,
-                              time: '04:00'),
-                          resultBar(
-                              ic: Icons.terrain_rounded,
-                              temperature: 340,
-                              time: '05:00'),
-                          resultBar(
-                              ic: Icons.air, temperature: 360, time: '06:00'),
-                          resultBar(
-                              ic: Icons.water_drop,
-                              temperature: 320,
-                              time: '07:00'),
+                          for (int i = 0; i < 7; i++)
+                                resultBar(
+                                ic: Icons.water_drop,
+                                temperature: data['list'][i+1]['main']['temp'],
+                                time: data['list'][i+1]['dt'].toString())
+                          
+                           
                         ],
                       ),
                     ),
@@ -161,21 +162,21 @@ class _WeatherScreanState extends State<WeatherScrean> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 20),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         AdditionInfo(
-                          icon: Icons.water_drop,
-                          temp: 30,
+                          icon: Icons.water_drop_outlined,
+                          temp: humidity,
                           label: 'Humidity',
                         ),
                         AdditionInfo(
                             icon: Icons.wind_power_sharp,
-                            temp: 50,
+                            temp: windSpeed,
                             label: 'Wind Speed'),
                         AdditionInfo(
                           icon: Icons.poll_rounded,
-                          temp: 60,
+                          temp: pressure,
                           label: 'Pressure',
                         )
                       ],

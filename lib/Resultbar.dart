@@ -17,7 +17,7 @@ class resultBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: SizedBox(
-        height: 120,
+        height: 126,
         child: SizedBox(
           width: 100,
           child: Card(
