@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/Resultbar.dart';
 import 'package:weather_app/addition_info.dart';
 import 'package:http/http.dart' as http;
@@ -141,21 +142,21 @@ class _WeatherScreanState extends State<WeatherScrean> {
                     ),
                     SizedBox(
                       height: 125,
-                      
-                      
                       child: ListView.builder(
-                        itemCount: 25,scrollDirection: Axis.horizontal,
+                        itemCount: 25,
+                        scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           final currentWeather = data['list'][index + 1];
                           final icon = currentWeather['weather'][0]['main'];
                           final temp = currentWeather['main']['temp'];
-                          final time = currentWeather['dt'];
-                        return  resultBar(
+                          final time = DateTime.parse(data['list'][index+1]['dt_txt']);
+                        // final  time = DateFormat.yMEd().add_jms().format();
+                          return resultBar(
                               ic: icon == 'Rain'
                                   ? Icons.water_drop
                                   : Icons.wb_sunny_outlined,
                               temperature: temp,
-                              time: time.toString());
+                              time: DateFormat.jm().format(time));
                         },
                       ),
                     ),
