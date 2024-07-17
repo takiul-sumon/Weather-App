@@ -156,7 +156,7 @@ class _WeatherScreanState extends State<WeatherScrean> {
                                   ? Icons.water_drop
                                   : Icons.wb_sunny_outlined,
                               temperature: temp,
-                              time: DateFormat.jm().format(time));
+                              time: DateFormat.j().format(time));
                         },
                       ),
                     ),
