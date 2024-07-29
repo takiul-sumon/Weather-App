@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/Resultbar.dart';
 import 'package:weather_app/addition_info.dart';
 import 'package:http/http.dart' as http;
 import './secret.dart';
+import './search bar.dart';
 
 class WeatherScrean extends StatefulWidget {
   const WeatherScrean({super.key});
@@ -15,9 +18,15 @@ class WeatherScrean extends StatefulWidget {
 }
 
 class _WeatherScreanState extends State<WeatherScrean> {
+  final String cityName = 'London';
+  TextEditingController textEditingController = TextEditingController();
+
+  void Searchcity(String cityname) {
+    cityname = cityName;
+  }
+
   Future<Map<String, dynamic>> currentWeather() async {
     try {
-      String cityName = 'London';
       final res = await http.get(
         Uri.parse(
             'http://api.openweathermap.org/data/2.5/forecast?q=$cityName&APPID=$openweatherapikey'),
@@ -37,18 +46,29 @@ class _WeatherScreanState extends State<WeatherScrean> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text(
-            "WeatherApp",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          title: Text(
+            cityName,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           actions: [
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: GestureDetector(
                 child: const Icon(
-                  Icons.settings_backup_restore_outlined,
+                  Icons.search_outlined,
                 ),
-                onTap: () {},
+                onTap: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return TextField(
+                          controller: textEditingController,
+                          onTap: () {
+                            Searchcity;
+                          },
+                        );
+                      });
+                },
               ),
             )
           ],
@@ -149,8 +169,9 @@ class _WeatherScreanState extends State<WeatherScrean> {
                           final currentWeather = data['list'][index + 1];
                           final icon = currentWeather['weather'][0]['main'];
                           final temp = currentWeather['main']['temp'];
-                          final time = DateTime.parse(data['list'][index+1]['dt_txt']);
-                        // final  time = DateFormat.yMEd().add_jms().format();
+                          final time =
+                              DateTime.parse(data['list'][index + 1]['dt_txt']);
+                          // final  time = DateFormat.yMEd().add_jms().format();
                           return resultBar(
                               ic: icon == 'Rain'
                                   ? Icons.water_drop
