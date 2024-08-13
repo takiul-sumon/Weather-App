@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:intl/intl.dart';
 import 'package:weather_app/Resultbar.dart';
 import 'package:weather_app/addition_info.dart';
@@ -18,12 +17,14 @@ class WeatherScrean extends StatefulWidget {
 }
 
 class _WeatherScreanState extends State<WeatherScrean> {
-  final String cityName = 'London';
+  String cityName ='London';
   TextEditingController textEditingController = TextEditingController();
 
-  void Searchcity(String cityname) {
-    cityname = cityName;
-  }
+  // void Searchcity(String cityname) {
+  //   setState(() {
+  //     cityname = textEditingController.text;
+  //   });
+  // }
 
   Future<Map<String, dynamic>> currentWeather() async {
     try {
@@ -47,7 +48,7 @@ class _WeatherScreanState extends State<WeatherScrean> {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            cityName,
+            cityName.toString(),
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           actions: [
@@ -61,11 +62,23 @@ class _WeatherScreanState extends State<WeatherScrean> {
                   showModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
-                        return TextField(
-                          controller: textEditingController,
-                          onTap: () {
-                            Searchcity;
-                          },
+                        return SizedBox(
+                          height: 150,
+                          width: double.infinity,
+                          child: Column(
+                            children: [
+                              TextField(
+                                controller: textEditingController,
+                              ),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+      cityName = textEditingController.text;
+    });
+                                  },
+                                  child: const Text("Enter")),
+                            ],
+                          ),
                         );
                       });
                 },
