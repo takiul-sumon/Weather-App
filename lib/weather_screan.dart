@@ -7,7 +7,6 @@ import 'package:weather_app/Resultbar.dart';
 import 'package:weather_app/addition_info.dart';
 import 'package:http/http.dart' as http;
 import './secret.dart';
-import './search bar.dart';
 
 class WeatherScrean extends StatefulWidget {
   const WeatherScrean({super.key});
@@ -33,7 +32,7 @@ class _WeatherScreanState extends State<WeatherScrean> {
             'http://api.openweathermap.org/data/2.5/forecast?q=$cityName&APPID=$openweatherapikey'),
       );
       final data = jsonDecode(res.body);
-      if (int.parse(data['cod']) != 200) {
+      if (double.parse(data['cod']) != 200) {
         throw 'Unexpected error accured';
       }
       return data;
@@ -89,7 +88,7 @@ class _WeatherScreanState extends State<WeatherScrean> {
         body: FutureBuilder(
             future: currentWeather(),
             builder: (context, snapshot) {
-              print(snapshot);
+              // print(snapshot);
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
                     child: CircularProgressIndicator.adaptive());

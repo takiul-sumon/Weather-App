@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 
 class resultBar extends StatelessWidget {
-  String? time;
-  IconData? ic;
+  final String? time;
+  final IconData? ic;
   final double? temperature;
 
   resultBar(
